@@ -3,20 +3,32 @@ import React, { Component } from 'react';
 import './people-page.css';
 
 import ItemList from "../item-list";
-import PersonDetails from "../person-details";
+import PersonDetails from "../item-details";
 import ErrorIndicator from "../error-indicator";
+import ErrorBoudry from "../error-boudry";
+
+import SwapiService from "../../services/swapi-servicce";
+
+
+const Row = ({left, right}) => {
+    return (
+        <div className="row mb2">
+            <div className="col-md-6">
+                { left }
+            </div>
+            <div className="col-md-6">
+                { right }
+            </div>
+        </div>
+    )
+};
 
 export default class PeoplePage extends Component{
+    swapiService = new SwapiService()
 
     state = {
         selectedPerson: 4,
         hasError: false
-    }
-
-    componentDidCatch(error, errorInfo) {
-        this.setState({
-            hasError: true
-        })
     }
 
     onPersonSelected = (id) => {
@@ -28,16 +40,23 @@ export default class PeoplePage extends Component{
         if(this.state.hasError){
             return <ErrorIndicator/>
         }
-        return (
-            <div className="row mb2">
-                <div className="col-md-6">
-                    <ItemList onItemSelected={this.onPersonSelected}/>
-                </div>
-                <div className="col-md-6">
-                    <PersonDetails personId={this.state.selectedPerson}/>
-                </div>
-            </div>
+        const itemList = (
+            <ItemList onItemSelected={this.onPersonSelected}
+                      getData={this.swapiService.getAllPeople}>
 
+                {(i) => (
+                    `${i.name} ( ${i.birthYear})`
+                )}
+            </ItemList>
+        )
+        const personDetails = (
+            <ErrorBoudry>
+                <PersonDetails personId={this.state.selectedPerson}/>
+            </ErrorBoudry>
+
+        );
+        return (
+                <Row left={itemList} right={personDetails}/>
         )
     }
 }
