@@ -6,7 +6,7 @@ import ErrorButton from "../error-button";
 const Record = ({ item, field, label }) => {
     return (
         <li className="list-group-item">
-            <span className="term">{label}</span>
+            <span className="term">{ label }</span>
             <span>{ item[field] }</span>
         </li>
     );
@@ -18,20 +18,23 @@ export {
 
 
 export default class ItemDetails extends Component {
-
     state = {
         item: null,
         img: null
     }
 
     componentDidMount() {
-        // this.updateItem();
+        this.updateItem();
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.personId !== prevProps.personId){
-            this.updateItem()
+    componentDidUpdate(prevProps) {
+        console.log(this.props)
+        if (this.props.itemId !== prevProps.itemId ||
+            this.props.getData !== prevProps.getData ||
+            this.props.getImgUrl !== prevProps.getImgUrl){
+            this.updateItem();
         }
+
     }
 
 
@@ -42,8 +45,11 @@ export default class ItemDetails extends Component {
         }
         getData(itemId)
             .then((item) => {
-                this.setState({item , img: getImgUrl(item) })
-            })
+                this.setState({
+                    item,
+                    image: getImgUrl(item)
+                });
+            });
     }
     render() {
         const { item, img } = this.state
@@ -53,7 +59,7 @@ export default class ItemDetails extends Component {
             </span>
         }
 
-        const { name} = this.state.item;
+        const { name} = item;
         return (
             <div className="person-details card">
                 <img className="person-image"
