@@ -44,7 +44,7 @@ export default class SwapiService {
         return `${this._imgBase}starships/${id}.jpg`
     }
     getPlanetImg = ({id}) =>{
-        return `${this._imgBase}planet/${id}.jpg`
+        return `${this._imgBase}planets /${id}.jpg`
     }
     _extractId = (item) => {
         const idRegExp = /\/([0-9]*)\/$/;
