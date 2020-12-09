@@ -8,20 +8,10 @@ import ErrorIndicator from "../error-indicator";
 import ErrorBoudry from "../error-boudry";
 
 import SwapiService from "../../services/swapi-servicce";
+import Row from "../row";
 
 
-const Row = ({left, right}) => {
-    return (
-        <div className="row mb2">
-            <div className="col-md-6">
-                { left }
-            </div>
-            <div className="col-md-6">
-                { right }
-            </div>
-        </div>
-    )
-};
+
 
 export default class PeoplePage extends Component{
     swapiService = new SwapiService()
@@ -53,7 +43,6 @@ export default class PeoplePage extends Component{
             <ErrorBoudry>
                 <PersonDetails personId={this.state.selectedPerson}/>
             </ErrorBoudry>
-
         );
         return (
                 <Row left={itemList} right={personDetails}/>
