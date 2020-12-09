@@ -47,7 +47,7 @@ export default class ItemDetails extends Component {
             .then((item) => {
                 this.setState({
                     item,
-                    image: getImgUrl(item)
+                    img: getImgUrl(item)
                 });
             });
     }
@@ -59,7 +59,7 @@ export default class ItemDetails extends Component {
             </span>
         }
 
-        const { name} = item;
+        const { name } = item;
         return (
             <div className="person-details card">
                 <img className="person-image"
