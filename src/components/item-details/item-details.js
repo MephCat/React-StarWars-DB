@@ -25,7 +25,7 @@ export default class ItemDetails extends Component {
     }
 
     componentDidMount() {
-        this.updateItem();
+        // this.updateItem();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

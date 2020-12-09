@@ -3,12 +3,13 @@ import React, {Component} from 'react';
 import './app.css';
 import Header from "../header";
 import RandomPlanet from "../random-planet";
-import ErrorIndicator from "../error-indicator";
-import PeoplePage from "../people-page/people-page";
 import SwapiService from "../../services/swapi-servicce";
 import ErrorButton from "../error-button";
 import ErrorBoudry from "../error-boudry";
-import Row from "../row";
+
+import { SwapiServiceProvider,
+         SwapiServiceConsumer }
+         from "../swapi-service-context";
 
 import ItemDetails, { Record } from "../item-details/item-details";
 
@@ -77,25 +78,26 @@ export default class App extends Component {
         );
         return (
             <ErrorBoudry>
-                <div className="container">
-                    <Header />
-                    {planet}
+                <SwapiServiceProvider value={this.swapiService}>
+                    <div className="container">
+                        <Header />
+                        {planet}
 
-                    <div className="row mb2 button-row">
-                        <button className="toggle-planet btn btn-warning btn-lg"
-                                onClick={this.toggleRandomPlanet}
-                        >
-                            Toggle Random Planet
-                        </button>
-                        <ErrorButton/>
+                        <div className="row mb2 button-row">
+                            <button className="toggle-planet btn btn-warning btn-lg"
+                                    onClick={this.toggleRandomPlanet}>
+                                Toggle Random Planet
+                            </button>
+                            <ErrorButton/>
+                        </div>
+                        <PersonDetails itemId={11}/>
+                        <PlanetDetails itemId={5}/>
+                        <StarshipDetails itemId={9} />
+                        <PersonList />
+                        <StarshipList />
+                        <PlanetList />
                     </div>
-                    <PersonDetails itemId={11}/>
-                    <PlanetDetails itemId={5}/>
-                    <StarshipDetails itemId={9} />
-                    <PersonList />
-                    <StarshipList />
-                    <PlanetList />
-                </div>
+                </SwapiServiceProvider>
             </ErrorBoudry>
         )
     };
