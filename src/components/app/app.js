@@ -12,57 +12,69 @@ import Row from "../row";
 
 import ItemDetails, { Record } from "../item-details/item-details";
 
+import {
+    PersonDetails,
+    PlanetDetails,
+    StarshipDetails,
+    PlanetList,
+    PersonList,
+    StarshipList
+} from "../sw-components";
+
+
 export default class App extends Component {
     swapiService = new SwapiService()
 
     state = {
-        showRandomPlanet: true,
-        selectedPerson: 4,
-        hasError: false
-    }
+        showRandomPlanet: true
+    };
     toggleRandomPlanet = () => {
         this.setState((state) => {
             return {
                 showRandomPlanet: !state.showRandomPlanet
             }
         });
-    }
+    };
 
     // обрабатывает ошибку в компоненте
     componentDidCatch(error, errorInfo) {
         console.log('DidCatch')
-        this.setState({hasError: true})
     }
 
     render() {
-        if(this.state.hasError) {
-            return <ErrorIndicator/>
-        }
-
+        const planet = this.state.showRandomPlanet ?
+            <RandomPlanet/> :
+            null;
         const { getPerson,
-                getStarship,
-                getStarshipImg,
-                getPersonImg} = this.swapiService;
-        const personDetails = (
-          <ItemDetails itemId={11}
-                       getData={getPerson}
-                       getImgUrl={getPersonImg}>
-              <Record field="gender" label="Gender"/>
-              <Record field="eyeColor" label="Eye Color"/>
-          </ItemDetails>
-        );
-        const starshipDetails = (
-          <ItemDetails itemId={5}
-                       getData={getStarship}
-                       getImgUrl={getStarshipImg}
-                       >
-              <Record field="model" label="Model"/>
-              <Record field="length" label="Length"/>
-              <Record field="costInCredits" label="Cost"/>
+            getStarship,
+            getPersonImage,
+            getStarshipImage,
+            getAllPeople,
+            getAllPlanets } = this.swapiService;
 
-          </ItemDetails>
+        const personDetails = (
+            <ItemDetails
+                itemId={11}
+                getData={getPerson}
+                getImageUrl={getPersonImage} >
+
+                <Record field="gender" label="Gender" />
+                <Record field="eyeColor" label="Eye Color" />
+
+            </ItemDetails>
         );
-        const planet = this.state.showRandomPlanet? <RandomPlanet/> : null;
+
+        const starshipDetails = (
+            <ItemDetails
+                itemId={5}
+                getData={getStarship}
+                getImageUrl={getStarshipImage}>
+
+                <Record field="model" label="Model" />
+                <Record field="length" label="Length" />
+                <Record field="costInCredits" label="Cost" />
+            </ItemDetails>
+        );
         return (
             <ErrorBoudry>
                 <div className="container">
@@ -77,10 +89,12 @@ export default class App extends Component {
                         </button>
                         <ErrorButton/>
                     </div>
-
-                    <PeoplePage />
-
-                    <Row left={personDetails} right={starshipDetails}/>
+                    <PersonDetails itemId={11}/>
+                    <PlanetDetails itemId={5}/>
+                    <StarshipDetails itemId={9} />
+                    <PersonList >
+                        { ({name}) => <span>{name}</span>}
+                    </PersonList>
                 </div>
             </ErrorBoudry>
         )
