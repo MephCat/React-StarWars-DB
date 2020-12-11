@@ -16,12 +16,24 @@ export default class RandomPlanet extends Component {
         error: false
     };
 
+    static propTypes = {
+        // propName - пропс для которого проводим валидыцию
+        // componentName- компонент для которого проводим валидацию
+        updateInterval: (props, propName, componentName) => {
+            const val = props[propName]
+            if(typeof val ==="number" && !isNaN(val)){
+                return null;
+            }
+            return new TypeError(`${componentName}: ${propName} must be number`)
+        }
+    }
     constructor() {
         super();
         console.log('constructor')
     }
     componentDidMount() {
-        this.interval = setInterval( this.updatePlanet() , 10000);
+        const { updateInterval } = this.props;
+        this.interval = setInterval( this.updatePlanet() , updateInterval);
         console.log('DidMount')
     }
 
@@ -66,10 +78,16 @@ export default class RandomPlanet extends Component {
                 {content}
             </div>
         );
-
     }
-}
 
+    // для компонентов классов
+    // static defaultProps = {
+    //     updateInterval: 10000
+    // }
+}
+RandomPlanet.defaulProps = {
+    updateInterval: 10000
+}
 
 const PlanetView = ({planet}) => {
     const {
