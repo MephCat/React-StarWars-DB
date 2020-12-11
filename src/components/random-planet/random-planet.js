@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import SwapiService from '../../services/swapi-servicce';
 
@@ -16,16 +17,20 @@ export default class RandomPlanet extends Component {
         error: false
     };
 
+    // static propTypes = {
+    //     // propName - пропс для которого проводим валидыцию
+    //     // componentName- компонент для которого проводим валидацию
+    //     updateInterval: (props, propName, componentName) => {
+    //         const val = props[propName]
+    //         if(typeof val ==="number" && !isNaN(val)){
+    //             return null;
+    //         }
+    //         return new TypeError(`${componentName}: ${propName} must be number`)
+    //     }
+    // }
+    // аналогично
     static propTypes = {
-        // propName - пропс для которого проводим валидыцию
-        // componentName- компонент для которого проводим валидацию
-        updateInterval: (props, propName, componentName) => {
-            const val = props[propName]
-            if(typeof val ==="number" && !isNaN(val)){
-                return null;
-            }
-            return new TypeError(`${componentName}: ${propName} must be number`)
-        }
+        updateInterval: PropTypes.number.isRequired
     }
     constructor() {
         super();
