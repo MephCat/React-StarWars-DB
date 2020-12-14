@@ -6,8 +6,8 @@ export default class SwapiService {
     getResource = async (url) => {
         const res = await fetch(`${this._apiBase}${url}`);
         if(!res.ok) {
-            throw new Error(`Could not fetch ${url}
-        , recived ${res.status}`)
+            throw new Error(`Could not fetch ${url}` +
+                `, received ${res.status}`)
         }
         return  await res.json();
     }
@@ -33,7 +33,7 @@ export default class SwapiService {
         return res.results.map(this._transformStarship)
     }
     getStarship = async (id) => {
-        const starship = await  this.getResource(`/starships/${id}`);
+        const starship = await this.getResource(`/starships/${id}/`);
         return this._transformStarship(starship);
     }
 
